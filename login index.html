@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login Page</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .login {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .login__video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .login__form {
+      position: relative;
+      z-index: 1;
+      background-color: rgba(5, 1, 1, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 1rem;
+      min-width: 320px;
+    }
+
+    .login__clock {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: rgb(223, 211, 211);
+      font-size: 1.5rem;
+      font-family: 'Courier New', Courier, monospace;
+      z-index: 2;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 9999;
+    }
+
+    .popup-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .popup-box {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 0, 150, 0.5);
+      max-width: 360px;
+      width: 90%;
+      text-align: center;
+      font-size: 1.2rem;
+      color: #e91e63;
+      font-weight: 600;
+      transform: scale(0.7);
+      opacity: 0;
+      animation: popupShow 0.4s forwards;
+      position: relative;
+      /* shifted slightly right and bigger */
+      margin-left: 30px;
+    }
+
+    @keyframes popupShow {
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #e91e63;
+      font-weight: bold;
+      user-select: none;
+    }
+
+    .login__title {
+      margin-bottom: 1.5rem;
+      color: white;
+      font-weight: 700;
+    }
+
+    .login__box {
+      margin-bottom: 1rem;
+    }
+
+    .login__input {
+      width: 100%;
+      padding: 8px 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .login__label {
+      color: white;
+      font-size: 0.9rem;
+    }
+
+    .login__button {
+      width: 100%;
+      padding: 10px;
+      background: #e91e63;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: background-color 0.3s ease;
+    }
+
+    .login__button:hover {
+      background-color: #b9134c;
+    }
+
+    .login__check-label, .login__forgot {
+      color: white;
+      font-size: 0.9rem;
+    }
+
+    .login__forgot {
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .login__check-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .login__check-input {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="login">
+    <video autoplay muted loop class="login__video">
+      <source src="169951-842348732_small22222.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+
+    <div class="login__clock" id="clock"></div>
+
+    <form action="" class="login__form" id="login-form">
+      <h1 class="login__title">Login</h1>
+
+      <div class="login__content">
+        <div class="login__box">
+          <i class="ri-user-3-line login__icon"></i>
+          <div class="login__box-input">
+            <input type="text" required class="login__input" id="login-email" placeholder=" " />
+            <label for="login-email" class="login__label">Name</label>
+          </div>
+        </div>
+
+        <div class="login__box">
+          <i class="ri-lock-2-line login__icon"></i>
+          <div class="login__box-input">
+            <input type="password" required class="login__input" id="login-pass" placeholder=" " />
+            <label for="login-pass" class="login__label">Password</label>
+            <i class="ri-eye-off-line login__eye" id="login-eye" style="cursor:pointer;"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="login__check">
+        <div class="login__check-group">
+          <input type="checkbox" class="login__check-input" id="login-check" />
+          <label for="login-check" class="login__check-label">Remember me</label>
+        </div>
+
+        <a href="#" class="login__forgot" id="forgot-password">Forgot Password?</a>
+      </div>
+
+      <button type="submit" class="login__button">Login</button>
+
+      <p class="login__register">
+        Don't have an account? <a href="#">Register</a>
+      </p>
+    </form>
+  </div>
+
+  <!-- Popup -->
+  <div class="popup-overlay" id="popup">
+    <div class="popup-box" id="popup-box">
+      <span class="popup-close" id="popup-close">&times;</span>
+      <div id="popup-message" style="white-space: pre-line;"></div>
+    </div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const clock = document.getElementById('clock');
+      const now = new Date();
+      const time = now.toLocaleTimeString();
+      clock.textContent = time;
+
+      if (now.getHours() === 0 && now.getMinutes() === 58 && !window.shown58) {
+        window.shown58 = true;
+        showPopup("🌙 It's 12:58 AM! Don't forget to smile 💖");
+      }
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    const popup = document.getElementById('popup');
+    const popupMessage = document.getElementById('popup-message');
+    const popupClose = document.getElementById('popup-close');
+
+    function showPopup(message) {
+      // Use innerHTML for line breaks in messages with <br> or \n
+      popupMessage.innerHTML = message;
+      popup.classList.add('active');
+    }
+
+    function hidePopup() {
+      popup.classList.remove('active');
+    }
+
+    popupClose.addEventListener('click', hidePopup);
+    popup.addEventListener('click', function(e) {
+      if (e.target === popup) hidePopup();
+    });
+
+    const loginEye = document.getElementById('login-eye');
+    const loginPass = document.getElementById('login-pass');
+    loginEye.addEventListener('click', () => {
+      if (loginPass.type === 'password') {
+        loginPass.type = 'text';
+        loginEye.classList.replace('ri-eye-off-line', 'ri-eye-line');
+      } else {
+        loginPass.type = 'password';
+        loginEye.classList.replace('ri-eye-line', 'ri-eye-off-line');
+      }
+    });
+
+    const loginForm = document.getElementById('login-form');
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-pass').value;
+
+      if (name.toUpperCase() !== 'ALIZA CHY') {
+        showPopup(`My heart only knows one name, and that's yours. 💫\nNo other name is allowed to take its place. 💖🔒`);
+        return;
+      }
+
+      if (password !== '1258') {
+        showPopup(`Who needs a password when you’ve got my love? 💘\nLet me handle this, darling. 😉💖`);
+        return;
+      }
+
+      showPopup('✅ Login Successful! Redirecting...');
+      setTimeout(() => {
+        window.location.href = "home index.html"; // 👉 Replace with your destination page
+      }, 1000);
+    });
+
+    const forgotLink = document.getElementById('forgot-password');
+    forgotLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      showPopup(
+        `Let’s unlock this with love.\n\n` +
+        `Some things need a password.\n` +
+        `But my heart? It only needs your smile.\n` +
+        `Text me ‘I love you’, and I’ll send the magic code. ❤️`
+      );
+    });
+  </script>
+</body>
+</html>
